@@ -1,8 +1,5 @@
-use std::convert::identity;
-
 use anyhow::Result;
 use itertools::Itertools;
-use serde::Deserialize;
 
 use aoc_runner_derive::{aoc, aoc_generator};
 
@@ -24,6 +21,7 @@ enum Winner {
 
 #[derive(Clone, Debug)]
 struct Cell {
+    #[allow(dead_code)]
     row: Row,
     column: Column,
     value: Value,
@@ -167,7 +165,7 @@ fn part2(input: &Input) -> usize {
         .find_map(|value| {
             boards.iter_mut().for_each(|board| board.draw(*value));
             if boards.len() != 1 {
-                boards.retain(|board| !board.check().is_some());
+                boards.retain(|board| board.check().is_none());
                 None
             } else {
                 boards[0]
