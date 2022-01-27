@@ -2,20 +2,20 @@ use aoc_runner_derive::{aoc, aoc_generator};
 use itertools::Itertools;
 use serde::Deserialize;
 
-fn find_duplicates<T>(iter: T) -> Vec<T::Item>
+fn find_n_duplicates<T>(iter: T) -> usize
 where
-    T: Iterator,
-    T::Item: Clone + Ord,
+    T: Iterator<Item = Point>,
 {
-    let mut v = iter.collect_vec();
-    v.sort_unstable();
-    let mut v = v
-        .into_iter()
-        .tuple_windows()
-        .filter_map(|(x, y)| (x == y).then(|| y))
-        .collect_vec();
-    v.dedup();
-    v
+    let mut counts = vec![0; 1000 * 1000];
+    let mut overlaps = 0;
+    iter.for_each(|point| {
+        let pos = 1000 * point.x + point.y;
+        if counts[pos] == 1 {
+            overlaps += 1;
+        }
+        counts[pos] += 1;
+    });
+    overlaps
 }
 
 /// Annoying workaround for ranges not going backwards...
@@ -88,18 +88,17 @@ fn parse_input(input: &str) -> Input {
 
 #[aoc(day5, part1)]
 fn part1(input: &Input) -> usize {
-    find_duplicates(
+    find_n_duplicates(
         input
             .iter()
             .filter(|v| v.is_horizontal() | v.is_vertical())
             .flat_map(|v| v.points()),
     )
-    .len()
 }
 
 #[aoc(day5, part2)]
 fn part2(input: &Input) -> usize {
-    find_duplicates(
+    find_n_duplicates(
         input
             .iter()
             .filter(|v| v.is_horizontal() || v.is_vertical())
@@ -111,7 +110,6 @@ fn part2(input: &Input) -> usize {
                     .flat_map(|v| v.diagonal_points()),
             ),
     )
-    .len()
 }
 
 #[cfg(test)]
