@@ -188,6 +188,7 @@ dependencies = [
 [[package]]
 name = "itertools"
 version = "0.10.3"
+source = "git+https://github.com/sd2k/itertools?branch=add-hashbrown-feature#f33beb84c5612f73076626a0ef7961b6957909c8"
 dependencies = [
  "either",
  "hashbrown 0.12.0",
