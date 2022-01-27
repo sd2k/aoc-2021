@@ -2,6 +2,22 @@ use aoc_runner_derive::{aoc, aoc_generator};
 use itertools::Itertools;
 use serde::Deserialize;
 
+fn find_duplicates<T>(iter: T) -> Vec<T::Item>
+where
+    T: Iterator,
+    T::Item: Clone + Ord,
+{
+    let mut v = iter.collect_vec();
+    v.sort_unstable();
+    let mut v = v
+        .into_iter()
+        .tuple_windows()
+        .filter_map(|(x, y)| (x == y).then(|| y))
+        .collect_vec();
+    v.dedup();
+    v
+}
+
 /// Annoying workaround for ranges not going backwards...
 fn range_inclusive(a: usize, b: usize) -> Box<dyn Iterator<Item = usize>> {
     if b > a {
@@ -11,7 +27,7 @@ fn range_inclusive(a: usize, b: usize) -> Box<dyn Iterator<Item = usize>> {
     }
 }
 
-#[derive(Clone, Copy, Debug, Deserialize, Eq, Hash, PartialEq)]
+#[derive(Clone, Copy, Debug, Deserialize, Eq, Hash, Ord, PartialEq, PartialOrd)]
 struct Point {
     x: usize,
     y: usize,
@@ -72,28 +88,30 @@ fn parse_input(input: &str) -> Input {
 
 #[aoc(day5, part1)]
 fn part1(input: &Input) -> usize {
-    input
-        .iter()
-        .filter(|v| v.is_horizontal() | v.is_vertical())
-        .flat_map(|v| v.points())
-        .duplicates()
-        .count()
+    find_duplicates(
+        input
+            .iter()
+            .filter(|v| v.is_horizontal() | v.is_vertical())
+            .flat_map(|v| v.points()),
+    )
+    .len()
 }
 
 #[aoc(day5, part2)]
 fn part2(input: &Input) -> usize {
-    input
-        .iter()
-        .filter(|v| v.is_horizontal() || v.is_vertical())
-        .flat_map(|v| v.points())
-        .chain(
-            input
-                .iter()
-                .filter(|v| v.is_diagonal())
-                .flat_map(|v| v.diagonal_points()),
-        )
-        .duplicates()
-        .count()
+    find_duplicates(
+        input
+            .iter()
+            .filter(|v| v.is_horizontal() || v.is_vertical())
+            .flat_map(|v| v.points())
+            .chain(
+                input
+                    .iter()
+                    .filter(|v| v.is_diagonal())
+                    .flat_map(|v| v.diagonal_points()),
+            ),
+    )
+    .len()
 }
 
 #[cfg(test)]
