@@ -13,6 +13,7 @@ aoc-runner-derive = "0.3.0"
 hashbrown = "0.12"
 # itertools = "0.10.3"
 itertools = { git = "https://github.com/sd2k/itertools", features = ["use_hashbrown"], branch = "add-hashbrown-feature" }
+mimalloc = { version = "0.1.27", default-features = false }
 once_cell = "1.9.0"
 regex = "1.5.4"
 serde = { version = "1.0.133", features = ["derive"] }
