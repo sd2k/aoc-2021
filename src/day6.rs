@@ -1,7 +1,6 @@
 use anyhow::Result;
 use aoc_runner_derive::{aoc, aoc_generator};
 use hashbrown::hash_map::HashMap;
-use itertools::Itertools;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 struct Fish(u8);
@@ -10,7 +9,13 @@ type Input = HashMap<Fish, usize>;
 
 #[aoc_generator(day6)]
 fn parse_input(input: &str) -> Input {
-    input.split(',').map(|i| Fish(i.parse().unwrap())).counts()
+    input
+        .split(',')
+        .map(|i| Fish(i.parse().unwrap()))
+        .fold(HashMap::new(), |mut acc, x| {
+            acc.entry(x).and_modify(|y| *y += 1).or_insert(1);
+            acc
+        })
 }
 
 fn evolve(fish: &Input) -> Input {

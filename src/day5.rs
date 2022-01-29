@@ -1,5 +1,4 @@
 use aoc_runner_derive::{aoc, aoc_generator};
-use itertools::Itertools;
 use serde::Deserialize;
 
 fn find_n_duplicates<T>(iter: T) -> usize

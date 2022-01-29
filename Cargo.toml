@@ -8,11 +8,8 @@ edition = "2021"
 anyhow = "1.0.52"
 aoc-runner = "0.3.0"
 aoc-runner-derive = "0.3.0"
-# aoc-runner = { path = "../../rust/cargo-aoc/aoc-runner" }
-# aoc-runner-derive = { path = "../../rust/cargo-aoc/aoc-runner-derive" }
 hashbrown = "0.12"
-# itertools = "0.10.3"
-itertools = { git = "https://github.com/sd2k/itertools", features = ["use_hashbrown"], branch = "add-hashbrown-feature" }
+itertools = "0.10.3"
 mimalloc = { version = "0.1.27", default-features = false }
 once_cell = "1.9.0"
 regex = "1.5.4"

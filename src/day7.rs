@@ -1,6 +1,4 @@
 use aoc_runner_derive::{aoc, aoc_generator};
-use hashbrown::hash_map::HashMap;
-use itertools::Itertools;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 struct Crab(u16);
