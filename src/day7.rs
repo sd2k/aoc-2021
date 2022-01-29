@@ -41,15 +41,15 @@ fn cost_part2(crabs: &Input, position: u16) -> usize {
 
 #[aoc(day7, part1)]
 fn part1(input: &Input) -> usize {
-    cost_part1(&input, best_position_part1(&input))
+    cost_part1(input, best_position_part1(input))
 }
 
 #[aoc(day7, part2)]
 fn part2(input: &Input) -> usize {
-    let candidates = best_position_part2(&input);
+    let candidates = best_position_part2(input);
     [
-        cost_part2(&input, candidates.0),
-        cost_part2(&input, candidates.1),
+        cost_part2(input, candidates.0),
+        cost_part2(input, candidates.1),
     ]
     .into_iter()
     .min()
